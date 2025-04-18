@@ -42,7 +42,6 @@ function power.Check-Deno -d 'Check if Deno is already intsalled.'
 
       case '*'
         echo "Installation canceled."
-        exit 1
     end
   end
 end
