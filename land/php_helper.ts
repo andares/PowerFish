@@ -1,6 +1,6 @@
-import { colors } from "@cliffy/ansi/colors";
-import { tty } from "@cliffy/ansi/tty";
-import { delay } from "@std/async/delay";
+import { colors } from "jsr:@cliffy/ansi/colors";
+import { tty } from "jsr:@cliffy/ansi/tty";
+import { delay } from "jsr:@std/async/delay";
 
 const error = colors.bold.red;
 const warn = colors.bold.yellow;
