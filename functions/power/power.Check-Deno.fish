@@ -37,11 +37,23 @@ function power.Check-Deno -d 'Check if Deno is already intsalled.'
         end
 
         # 提示可能需要手动添加环境变量
-        echo "\nInstallation complete! You may need to add Deno to your PATH:"
-        echo "set -Ua fish_user_paths ~/.deno/bin"
+        # echo "\nInstallation complete! You may need to add Deno to your PATH:"
+        # echo "set -Ua fish_user_paths ~/.deno/bin"
+        # 不提示直接操作掉
+        set -Ua fish_user_paths ~/.deno/bin
+
+        if not command -s deno >/dev/null
+          echo "Deno installation failed."
+          return $OMF_UNKNOWN_ERR
+        else
+          return 0
+        end
 
       case '*'
         echo "Installation canceled."
+        return $OMF_UNKNOWN_ERR
     end
+  else
+    return 0
   end
 end
