@@ -32,6 +32,7 @@ if test -f $HOME/.powerrc.fish
 end
 
 # autoload
+autoload $POWER_PATH/functions/power
 
 # autoclear history hook
 if not test -z "$autoclear_history"; and test $autoclear_history -gt 0
