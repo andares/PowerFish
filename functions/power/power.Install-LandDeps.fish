@@ -8,7 +8,7 @@ function power.Install-LandDeps -d 'Install Land library dependencies.'
     switch (string lower $confirm)
       case y yes
         # 使用 proxychains 安装
-        Proxy-Call "deno install -c $POWER_PATH/land/deno.json"
+        power.Proxy-Call "deno install -c $POWER_PATH/land/deno.json"
 
       case '*'
         # 正常安装流程

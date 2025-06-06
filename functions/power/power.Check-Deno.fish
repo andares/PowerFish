@@ -21,8 +21,8 @@ function power.Check-Deno -d 'Check if Deno is already intsalled.'
             case y yes
               # 使用 proxychains 安装
               echo "Installing deno with proxychains..."
-              Proxy-Call $installer
-              Proxy-Call "deno install -c $POWER_PATH/land/deno.json"
+              power.Proxy-Call $installer
+              power.Proxy-Call "deno install -c $POWER_PATH/land/deno.json"
 
             case '*'
               # 正常安装流程
