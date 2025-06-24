@@ -1,9 +1,7 @@
 function Land -a command
   # Check if command is provided
   if test -z "$command"
-    echo "Error: No command specified"
-    echo "Usage: Land <command> [args...]"
-    return 1
+    set command help
   end
 
   power.Check-Deno || return $OMF_UNKNOWN_ERR
