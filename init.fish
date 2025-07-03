@@ -31,8 +31,12 @@ if test -f $HOME/.powerrc.fish
   source $HOME/.powerrc.fish
 end
 
+# alias load
+source $DIR/alias.fish
+
 # autoload
 autoload $POWER_PATH/functions/power
+autoload $POWER_PATH/functions/hw
 
 # autoclear history hook
 if not test -z "$autoclear_history"; and test $autoclear_history -gt 0
