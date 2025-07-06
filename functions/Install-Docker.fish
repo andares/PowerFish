@@ -1,8 +1,15 @@
 function Install-Docker
     # 检查root权限
-    if not test (id -u) -eq 0
-        echo "Error: Please run this script with sudo" >&2
-        return 1
+    # if not test (id -u) -eq 0
+    #     echo "Error: Please run this script with sudo" >&2
+    #     return 1
+    # end
+
+    # 检查sudo权限
+    if not has_sudo
+      echo "Error: Need sudo permission" >&2
+      return $OMF_UNKNOWN_ERR
+      # 这里可以执行需要 sudo 的操作
     end
 
     # 卸载旧版本
