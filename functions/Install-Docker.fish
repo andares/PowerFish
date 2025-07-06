@@ -6,7 +6,7 @@ function Install-Docker
     # end
 
     # 检查sudo权限
-    if not has_sudo
+    if not power.Has-Sudo
       echo "Error: Need sudo permission" >&2
       return $OMF_UNKNOWN_ERR
       # 这里可以执行需要 sudo 的操作
