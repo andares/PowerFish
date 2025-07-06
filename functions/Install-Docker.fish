@@ -46,15 +46,13 @@ function Install-Docker
 
     # 配置镜像加速器
     echo "Step 7: Configuring registry mirrors..."
-    sudo tee /etc/docker/daemon.json > /dev/null <<EOF
-{
+    echo '{
   "registry-mirrors": [
     "https://docker.mirrors.ustc.edu.cn",
     "https://hub-mirror.c.163.com",
     "https://registry.aliyuncs.com"
   ]
-}
-EOF
+}' | sudo tee /etc/docker/daemon.json > /dev/null
     sudo systemctl restart docker
 
     # 添加当前用户到docker组
