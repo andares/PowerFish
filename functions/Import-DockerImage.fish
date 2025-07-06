@@ -10,7 +10,7 @@ function Import-DockerImage -a filename tagName
 
   # 提取导入的镜像ID
   set -l imageId (string match -r 'Loaded image: (.*)' $output | awk '{print $3}')
-  if test -z $tagName; or test $tagName = $imageId
+  if test -z $tagName; or test "$tagName" = "$imageId"
     echo "Successfully imported. Image tag: $tagName"
     return 0
   end
