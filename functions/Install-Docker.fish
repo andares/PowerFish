@@ -38,7 +38,7 @@ function Install-Docker
     # 添加APT源
     echo "Step 4: Configuring Docker repository..."
     set -l codename (lsb_release -cs)
-    set -l sources_list "deb [arch=(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.aliyun.com/docker-ce/linux/ubuntu $codename stable"
+    set -l sources_list deb [arch=(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.aliyun.com/docker-ce/linux/ubuntu $codename stable
 
     echo $sources_list | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
