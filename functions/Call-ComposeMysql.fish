@@ -15,16 +15,22 @@ function Call-ComposeMysql -a database
     end
 
     # Step 2: Check compose services status
-    set -l compose_status (docker compose ps --status running -q 2>/dev/null)
+    set -l compose_status (Docker-Compose ps --status running -q 2>/dev/null)
     if test -z "$compose_status"
         echo "Error: Docker compose services are not running" >&2
         return 1
     end
 
-    # Step 3: Find MySQL service name
-    set -l mysql_service (docker compose ps --format json | jq -r '.[] | select(.Service | test("mysql|mariadb"; "i")) | .Service' | head -1)
+    # Step 3: Find MySQL service name (修复：处理行分隔的 JSON 对象)
+    set -l mysql_service (
+        Docker-Compose ps --format json |
+        jq -r 'select(.Image | test("mysql|mariadb"; "i")) | .Service' |
+        head -1
+    )
+
     if test -z "$mysql_service"
         echo "Error: MySQL/MariaDB service not found in running compose services" >&2
+        echo "Hint: Check service image contains 'mysql' or 'mariadb'" >&2
         return 1
     end
 
@@ -59,8 +65,8 @@ function Call-ComposeMysql -a database
 
     # Step 6: Execute with input redirection handling
     if isatty stdin
-        docker compose exec "$mysql_service" mysql -u "$user" -p"$password" "$database"
+        Docker-Compose exec "$mysql_service" mysql -u "$user" -p"$password" "$database"
     else
-        docker compose exec -T "$mysql_service" mysql -u "$user" -p"$password" "$database" <&0
+        Docker-Compose exec -T "$mysql_service" mysql -u "$user" -p"$password" "$database" <&0
     end
 end
