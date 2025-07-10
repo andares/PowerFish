@@ -15,6 +15,11 @@ if not test -e $HOME/.local/bin
 end
 set -xg PATH $HOME/.local/bin $PATH
 
+# init secret directory
+if not test -e $HOME/.local/.secret
+  mkdir -p $HOME/.local/.secret
+end
+
 # clean invalid soft link in $/.local/bin
 if test (count (string split ' ' (ls $HOME/.local/bin))) -gt 0
   for file in (string split ' ' (echo $HOME/.local/bin/*))
@@ -37,6 +42,7 @@ source $DIR/alias.fish
 # autoload
 autoload $POWER_PATH/functions/power
 autoload $POWER_PATH/functions/hw
+autoload $POWER_PATH/functions/tc
 
 # autoclear history hook
 if not test -z "$autoclear_history"; and test $autoclear_history -gt 0
