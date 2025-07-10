@@ -25,29 +25,27 @@ function Make-SecretLink -a domainPath
 
   # 创建目录软链
   set -l target_dir "$SECRET_LNK_DIR/$domain"
-  if test -L "$target_dir" -o -d "$target_dir"
-    echo "Warning: Existing link/directory will be replaced: $target_dir" >&2
-    rm -rf "$target_dir"
-  end
 
-  ln -s "$domainPath" "$target_dir"
-  if test $status -ne 0
-    echo "Failed to create directory link: $domainPath" >&2
-    return 1
+  # 这里只创建一次
+  if not test -L "$target_dir" -o -d "$target_dir"
+    ln -s "$domainPath" "$target_dir"
+    if test $status -ne 0
+      echo "Failed to create directory link: $domainPath" >&2
+      return 1
+    end
   end
 
   # 创建密钥文件软链
   set -l target_key "$SECRET_LNK_DIR/$domain.key"
-  if test -L "$target_key" -o -f "$target_key"
-    rm -f "$target_key"
-  end
-
-  ln -s "$key_file" "$target_key"
-  if test $status -ne 0
-    echo "Failed to create key file link: $key_file" >&2
-    # 回滚目录软链
-    rm -f "$target_dir"
-    return 1
+  # 这里只创建一次
+  if not test -L "$target_key" -o -f "$target_key"
+    ln -s "$key_file" "$target_key"
+    if test $status -ne 0
+      echo "Failed to create key file link: $key_file" >&2
+      # 回滚目录软链
+      rm -f "$target_dir"
+      return 1
+    end
   end
 
   echo "Created links for domain: $domain"
