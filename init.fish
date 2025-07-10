@@ -29,6 +29,9 @@ if not test -e $HOME/.local/.secret/tmp
   mkdir -p $HOME/.local/.secret/tmp
 end
 
+# clean tmp for secret
+Clean-ExportedSecret
+
 # clean invalid soft link in $/.local/bin
 if test (count (string split ' ' (ls $HOME/.local/bin))) -gt 0
   for file in (string split ' ' (echo $HOME/.local/bin/*))
