@@ -19,6 +19,15 @@ set -xg PATH $HOME/.local/bin $PATH
 if not test -e $HOME/.local/.secret
   mkdir -p $HOME/.local/.secret
 end
+if not test -e $HOME/.local/.secret/new
+  mkdir -p $HOME/.local/.secret/new
+end
+if not test -e $HOME/.local/.secret/lnk
+  mkdir -p $HOME/.local/.secret/lnk
+end
+if not test -e $HOME/.local/.secret/tmp
+  mkdir -p $HOME/.local/.secret/tmp
+end
 
 # clean invalid soft link in $/.local/bin
 if test (count (string split ' ' (ls $HOME/.local/bin))) -gt 0
