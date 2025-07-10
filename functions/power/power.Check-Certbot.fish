@@ -7,6 +7,4 @@ function power.Check-Certbot
       return 1
     end
   end
-
-  echo "certbot is installed"
 end

@@ -59,8 +59,7 @@ function Make-SecretFile -a domain name file
   end
 
   # 获取公钥并进行加密
-  set -l pubkey (age-keygen -y "$key_file")
-  echo "$pubkey" | age -e -a -o "$output_file" -r - "$file" >/dev/null 2>&1
+  age -e -a -o "$output_file" -r (age-keygen -y "$key_file") "$file" >/dev/null 2>&1
 
   if test $status -ne 0
     echo "Failed to encrypt file: $file" >&2

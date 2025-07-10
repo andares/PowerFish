@@ -16,6 +16,4 @@ function power.Check-Python
       return 1
     end
   end
-
-  echo "python and pip are installed"
 end

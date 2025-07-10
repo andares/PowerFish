@@ -7,6 +7,4 @@ function power.Check-Age
       return 1
     end
   end
-
-  echo "age is installed"
 end
