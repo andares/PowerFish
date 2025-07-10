@@ -5,6 +5,7 @@ function Export-SecretFile -a domain name
     return $OMF_UNKNOWN_ERR
   end
 
+  power.Check-Age
   set -l SECRET_LNK_DIR $HOME/.local/.secret/lnk
   set -l SECRET_NEW_DIR $HOME/.local/.secret/new
   set -l SECRET_TMP_DIR $HOME/.local/.secret/tmp

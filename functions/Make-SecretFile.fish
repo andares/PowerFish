@@ -5,6 +5,7 @@ function Make-SecretFile -a domain name file
     return $OMF_UNKNOWN_ERR
   end
 
+  power.Check-Age
   set -l SECRET_LNK_DIR $HOME/.local/.secret/lnk
   set -l SECRET_NEW_DIR $HOME/.local/.secret/new
 
