@@ -6,5 +6,8 @@ function Clean-ExportedSecret
   end
 
   set -l SECRET_TMP_DIR $HOME/.local/.secret/tmp
-  rm -r $SECRET_TMP_DIR/*
+  # 目录为空时不操作
+  if not test -n (find $SECRET_TMP_DIR -maxdepth 0 -type d -empty)
+    rm -r $SECRET_TMP_DIR/*
+  end
 end
