@@ -8,9 +8,9 @@ function Make-SecretLink -a domainPath
   set -l SECRET_LNK_DIR $HOME/.local/.secret/lnk
 
   # 验证源路径存在 INFO: 现在源路径和密钥文件允许分别软链
+  set -l domain (basename "$domainPath")
   if test -d "$domainPath"
     # 获取域名（目录名）
-    set -l domain (basename "$domainPath")
     # 创建目录软链
     set -l target_dir "$SECRET_LNK_DIR/$domain"
 
@@ -35,8 +35,6 @@ function Make-SecretLink -a domainPath
       ln -s "$key_file" "$target_key"
       if test $status -ne 0
         echo "Failed to create key file link: $key_file" >&2
-        # 回滚目录软链
-        rm -f "$target_dir"
         return 1
       end
       echo "Created key links for domain: $domain"
