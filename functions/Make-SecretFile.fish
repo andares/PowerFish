@@ -53,7 +53,7 @@ function Make-SecretFile -a domain name file
   end
 
   # 检查目标文件是否已存在
-  set -l output_file "$target_dir/$name.age"
+  set -l output_file "$target_dir/$name.enc"
   if test -f "$output_file"
     echo "Warning: Encrypted file already exists. Overwriting: $output_file" >&2
   end

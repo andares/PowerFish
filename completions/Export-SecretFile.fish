@@ -7,7 +7,7 @@ complete -c Export-SecretFile -n "__fish_seen_subcommand_from Export-SecretFile;
     -a "(set -q SECRET_NEW_DIR; or set -l SECRET_NEW_DIR ~/.local/.secret/new
          set -q SECRET_LNK_DIR; or set -l SECRET_LNK_DIR ~/.local/.secret/lnk
 
-         # 获取所有包含.age文件的域名
+         # 获取所有包含.enc文件的域名
          find $SECRET_NEW_DIR $SECRET_LNK_DIR -mindepth 1 -maxdepth 1 -type d \
              -exec test -d '{}/' ';' -print 2>/dev/null | xargs -I{} basename {} | sort | uniq)" \
     -d "Encryption domain"
@@ -21,10 +21,10 @@ complete -c Export-SecretFile -n "__fish_seen_subcommand_from Export-SecretFile;
          set -l cmd (commandline -opc)
          set -l domain $cmd[2]
 
-         # 查找该域名下所有.age文件
+         # 查找该域名下所有.enc文件
          for dir in $SECRET_LNK_DIR/$domain $SECRET_NEW_DIR/$domain
              if test -d $dir
-                 find $dir -maxdepth 1 -type f -name '*.age' -exec basename {} .age \; 2>/dev/null
+                 find $dir -maxdepth 1 -type f -name '*.enc' -exec basename {} .enc \; 2>/dev/null
              end
          end | sort | uniq)" \
     -d "Secret name"

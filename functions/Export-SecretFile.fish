@@ -14,11 +14,11 @@ function Export-SecretFile -a domain name
   set -l encrypted_file
   set -l key_file
 
-  if test -f "$SECRET_LNK_DIR/$domain/$name.age"
-    set encrypted_file "$SECRET_LNK_DIR/$domain/$name.age"
+  if test -f "$SECRET_LNK_DIR/$domain/$name.enc"
+    set encrypted_file "$SECRET_LNK_DIR/$domain/$name.enc"
     set key_file "$SECRET_LNK_DIR/$domain.key"
-  else if test -f "$SECRET_NEW_DIR/$domain/$name.age"
-    set encrypted_file "$SECRET_NEW_DIR/$domain/$name.age"
+  else if test -f "$SECRET_NEW_DIR/$domain/$name.enc"
+    set encrypted_file "$SECRET_NEW_DIR/$domain/$name.enc"
     set key_file "$SECRET_NEW_DIR/$domain.key"
   else
     echo "Error: Encrypted file not found for domain '$domain' and name '$name'" >&2
