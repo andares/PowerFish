@@ -5,6 +5,11 @@ function Make-SecretLink -a domainPath
     return $OMF_UNKNOWN_ERR
   end
 
+  if test -z "$domainPath"
+    echo "Usage: Make-SecretLink <domainPath>" >&2
+    return 1
+  end
+
   set -l SECRET_LNK_DIR $HOME/.local/.secret/lnk
 
   # 验证源路径存在 INFO: 现在源路径和密钥文件允许分别软链

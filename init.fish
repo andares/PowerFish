@@ -53,6 +53,7 @@ source $DIR/alias.fish
 
 # autoload
 autoload $POWER_PATH/functions/power
+autoload $POWER_PATH/functions/dc
 autoload $POWER_PATH/functions/hw
 autoload $POWER_PATH/functions/tc
 
