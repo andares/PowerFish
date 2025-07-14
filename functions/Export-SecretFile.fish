@@ -23,6 +23,8 @@ function Export-SecretFile -a domain name
     set encrypted_file "$SECRET_LNK_DIR/$domain/$name.enc"
   else if test -f "$SECRET_NEW_DIR/$domain/$name.enc"
     set encrypted_file "$SECRET_NEW_DIR/$domain/$name.enc"
+  else if test -f "$name.enc"
+    set encrypted_file "$name.enc"
   else
     echo "Error: Encrypted file not found for domain '$domain' and name '$name'" >&2
     return 1
