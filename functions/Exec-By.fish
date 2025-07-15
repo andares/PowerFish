@@ -25,16 +25,17 @@ function Exec-By
 
     if test -n "$script_command"
         # 构建执行命令（处理多行命令）
-        set -l cmd "string join ' ' -- $script_command"
+        set -l cmd (string join ' ' -- $script_command)
+
 
         # 特殊处理 Fish shell 和其他 shell
-        if string match -q "$user_shell" "*fish"
-            sudo -u $target_user $user_shell -c "$cmd"
+        if test (path basename $user_shell) = "fish"
+            sudo -u $target_user -i $user_shell -c "$cmd"
         else
-            sudo -u $target_user $user_shell -c "eval \"$cmd\""
+            sudo -u $target_user -i $user_shell -c "eval \"$cmd\""
         end
     else
         # 启动交互式 shell
-        sudo -u $target_user $user_shell
+        sudo -u $target_user -i $user_shell
     end
 end
