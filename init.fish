@@ -32,9 +32,6 @@ if not test -e $EXPORT_SECRETE_PATH
   chmod 755 $EXPORT_SECRETE_PATH
 end
 
-# clean tmp for secret
-Clean-ExportedSecret
-
 # clean invalid soft link in $/.local/bin
 if test (count (string split ' ' (ls $HOME/.local/bin))) -gt 0
   for file in (string split ' ' (echo $HOME/.local/bin/*))
