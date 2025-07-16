@@ -25,8 +25,11 @@ end
 if not test -e $HOME/.local/.secret/lnk
   mkdir -p $HOME/.local/.secret/lnk
 end
-if not test -e $HOME/.local/.secret/tmp
-  mkdir -p $HOME/.local/.secret/tmp
+
+set -xg EXPORT_SECRETE_PATH /dev/shm/.export-secret
+if not test -e $EXPORT_SECRETE_PATH
+  mkdir -p $EXPORT_SECRETE_PATH
+  chmod 755 $EXPORT_SECRETE_PATH
 end
 
 # clean tmp for secret

@@ -9,7 +9,6 @@ function Delete-RCVar -a name
     return $OMF_UNKNOWN_OPT
   end
 
-  koi exec-cmd "sed -i '/^set -xg $name /d' $HOME/.powerrc.fish"
-
+  sed -i '/^set -xg $name /d' $HOME/.powerrc.fish
   set -ge $name
 end

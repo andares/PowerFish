@@ -8,8 +8,7 @@ function Set-RCVar -a name value
     echo '# PowerFish RC File' > $HOME/.powerrc.fish
   end
 
-  koi exec-cmd "sed -i '/^set -xg $name /d' $HOME/.powerrc.fish"
-  koi exec-cmd "sed -i '\$a\\set -xg $name $value' $HOME/.powerrc.fish"
-
+  sed -i '/^set -xg $name /d' $HOME/.powerrc.fish
+  sed -i '\$a\\set -xg $name $value' $HOME/.powerrc.fish
   set -xg "$name" "$value"
 end
