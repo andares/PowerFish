@@ -43,6 +43,10 @@ end
 set -xg LOCAL_DIR $HOME/.local
 set -xg LOCAL_BIN $HOME/.local/bin
 
+# global variables 可以被rc file中覆盖
+set -xg NGINX_AVAILABLE_DIR "/etc/nginx/sites-available"
+set -xg NGINX_ENABLED_DIR "/etc/nginx/sites-enabled"
+
 # rc file support
 if test -f $HOME/.powerrc.fish
   source $HOME/.powerrc.fish
