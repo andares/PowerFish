@@ -59,7 +59,7 @@ function tc.Renew-Cert -a domain secretName
 
   # 申请证书 (添加关键参数)
   echo "Renewing certificate for $domain..."
-  sudo certbot certonly \
+  sudo TENCENTCLOUD_SECRET_ID="$TENCENTCLOUD_SECRET_ID" TENCENTCLOUD_SECRET_KEY="$TENCENTCLOUD_SECRET_KEY" certbot certonly \
     --non-interactive \
     --agree-tos \
     --authenticator dns-tencentcloud \
