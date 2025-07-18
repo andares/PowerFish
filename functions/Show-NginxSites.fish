@@ -37,6 +37,7 @@ function Show-NginxSites -d "显示所有可用和已启用的站点"
   end
 
   # 显示可用站点
+  echo ''
   echo "Available sites:"
   if test -z "$available_sites"
     echo "  (no sites available)"
