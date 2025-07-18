@@ -1,4 +1,4 @@
-function tc.Renew-Cert -a domain secretName
+function tc.Renew-Cert -a domain secretName mail
   set -l SECRET_DOMAIN tencentcloud
 
   # 检查sudo权限
@@ -59,14 +59,27 @@ function tc.Renew-Cert -a domain secretName
 
   # 申请证书 (添加关键参数)
   echo "Renewing certificate for $domain..."
-  sudo env TENCENTCLOUD_SECRET_ID="$TENCENTCLOUD_SECRET_ID" TENCENTCLOUD_SECRET_KEY="$TENCENTCLOUD_SECRET_KEY" \
-    certbot certonly \
-    --non-interactive \
-    --agree-tos \
-    --authenticator dns-tencentcloud \
-    --dns-tencentcloud-propagation-seconds 60 \
-    -d "$domain" \
-    --server https://acme-v02.api.letsencrypt.org/directory
+  if test -z "$mail"
+    sudo env TENCENTCLOUD_SECRET_ID="$TENCENTCLOUD_SECRET_ID" TENCENTCLOUD_SECRET_KEY="$TENCENTCLOUD_SECRET_KEY" \
+      certbot certonly \
+      --email "$mail" \
+      --non-interactive \
+      --agree-tos \
+      --authenticator dns-tencentcloud \
+      --dns-tencentcloud-propagation-seconds 60 \
+      -d "$domain" \
+      --server https://acme-v02.api.letsencrypt.org/directory
+  else
+    sudo env TENCENTCLOUD_SECRET_ID="$TENCENTCLOUD_SECRET_ID" TENCENTCLOUD_SECRET_KEY="$TENCENTCLOUD_SECRET_KEY" \
+      certbot certonly \
+      --non-interactive \
+      --agree-tos \
+      --authenticator dns-tencentcloud \
+      --dns-tencentcloud-propagation-seconds 60 \
+      -d "$domain" \
+      --server https://acme-v02.api.letsencrypt.org/directory
+  end
+
 
   # 检查Certbot执行状态
   if test $status -ne 0
