@@ -14,6 +14,7 @@ function tc.Upload-Cert -a profile domain -d
   end
 
   # 检查 certbot 是否安装
+  power.Check-Python
   power.Check-Certbot
   if not command -q certbot
     echo "certbot installation failed. Please check manually."
