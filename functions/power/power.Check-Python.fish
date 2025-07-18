@@ -16,4 +16,12 @@ function power.Check-Python
       return 1
     end
   end
+
+  if not command -q pipx
+    echo "Installing pipx..."
+    if not sudo apt install -y pipx
+      echo "Failed to install pipx!" >&2
+      return 1
+    end
+  end
 end
