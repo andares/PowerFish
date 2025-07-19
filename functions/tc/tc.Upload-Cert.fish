@@ -1,4 +1,4 @@
-function tc.Upload-Cert -a profile domain -d
+function tc.Upload-Cert -a profile domain -d "上传证书到腾讯云"
   # 验证参数数量
   if test -z "$profile"; or test -z "$domain"
     echo "Usage: tc.Upload-Cert <profile> <domain>"
@@ -23,7 +23,7 @@ function tc.Upload-Cert -a profile domain -d
 
   # 验证证书目录是否存在
   set -l cert_dir "/etc/letsencrypt/live/$domain"
-  if not test -d $cert_dir
+  if not sudo test -d $cert_dir
     echo "Certificate directory not found: $cert_dir"
     echo "Make sure certbot has generated certificates for $domain"
     return 1
@@ -33,20 +33,34 @@ function tc.Upload-Cert -a profile domain -d
   set -l cert_file "$cert_dir/fullchain.pem"
   set -l key_file "$cert_dir/privkey.pem"
 
-  if not test -f $cert_file; or not test -f $key_file
+  if not sudo test -f $cert_file; or not sudo test -f $key_file
     echo "Certificate files missing in $cert_dir"
     return 1
   end
 
+  # 获取实际链接文件
+  set archive_cert_path (sudo readlink -f "$cert_file")
+  set archive_key_path (sudo readlink -f "$key_file")
+
+  # 把文件复制到临时目录
+  if not test -d /dev/shm/.cert_tmp
+    sudo mkdir -p /dev/shm/.cert_tmp
+  end
+  set -l tmp_cert "/dev/shm/.cert_tmp/fullchain.pem"
+  set -l tmp_key "/dev/shm/.cert_tmp/privkey.pem"
+  sudo cp -f $archive_cert_path $tmp_cert
+  sudo cp -f $archive_key_path $tmp_key
+  sudo chown $USER:$USER $tmp_cert
+  sudo chown $USER:$USER $tmp_key
+
   # 上传证书到腾讯云
   echo "Uploading certificate for $domain using profile $profile"
   set -l result (tccli --profile $profile ssl UploadCertificate \
-    --certificate-type SVR \
-    --certificate-public-key (cat $cert_file) \
-    --certificate-private-key (cat $key_file) \
-    --alias $domain \
-    --repeatable \
-    --output json 2>/dev/null)
+    --CertificateType SVR \
+    --CertificatePublicKey (cat $tmp_cert | string collect) \
+    --CertificatePrivateKey (cat $tmp_key | string collect) \
+    --output json)
+    # --output json 2>/dev/null)
 
   # 处理上传结果
   if set -q result[1]
@@ -63,6 +77,9 @@ function tc.Upload-Cert -a profile domain -d
   else
     echo "Certificate upload failed. Check profile configuration and API permissions."
   end
+
+  # 清理临时文件
+  sudo rm -rf /dev/shm/.cert_tmp
 
   return 1
 end
