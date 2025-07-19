@@ -56,8 +56,8 @@ function tc.Renew-Cert -a domain secretFile mail
       --email "$mail" \
       --non-interactive \
       --agree-tos \
-      --nginx \
-      --keep-until-expiring \
+      # --nginx \
+      # --keep-until-expiring \
       --authenticator dns-multi \
       --dns-multi-credentials=/dev/shm/.export-secret/$USER/$SECRET_DOMAIN/$secretFile \
       -d zzdcn.com \
@@ -67,8 +67,8 @@ function tc.Renew-Cert -a domain secretFile mail
     sudo certbot certonly \
       --non-interactive \
       --agree-tos \
-      --nginx \
-      --keep-until-expiring \
+      # --nginx \
+      # --keep-until-expiring \
       --authenticator dns-multi \
       --dns-multi-credentials=/dev/shm/.export-secret/$USER/$SECRET_DOMAIN/$secretFile \
       -d zzdcn.com \
