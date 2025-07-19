@@ -12,7 +12,7 @@ function tc.Set-CDN-Cert -a profila certId cdnDomain -d "设置 CDN 域名证书
   # 检查 jq 是否安装用于 JSON 处理
   if not command -q jq
     echo "jq is required. Installing jq..."
-    sudo apt-get update && sudo apt-get install -y jq
+    sudo apt update && sudo apt install -y jq
     if not command -q jq
       echo "jq installation failed. Please install manually: sudo apt install jq"
       return 1

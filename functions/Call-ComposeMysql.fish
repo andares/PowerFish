@@ -3,7 +3,7 @@ function Call-ComposeMysql -a database
     if not command -v jq >/dev/null
         echo "Error: jq is required but not installed. Please install it with:" >&2
         echo "  macOS: brew install jq" >&2
-        echo "  Linux: sudo apt-get install jq" >&2
+        echo "  Linux: sudo apt install jq" >&2
         echo "  Windows: choco install jq" >&2
         return 1
     end
