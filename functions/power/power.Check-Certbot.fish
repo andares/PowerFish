@@ -6,6 +6,7 @@ function power.Check-Certbot
       echo "Failed to install certbot!" >&2
       return 1
     end
+    sudo apt install -y python3-certbot-nginx
   end
 
   if not pip3 show certbot-dns-multi >/dev/null 2>&1
