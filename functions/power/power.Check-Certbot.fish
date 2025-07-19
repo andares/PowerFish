@@ -7,4 +7,12 @@ function power.Check-Certbot
       return 1
     end
   end
+
+  if not pip3 show certbot-dns-multi >/dev/null 2>&1
+    echo "Installing certbot-dns-multi..."
+    sudo pip3 install certbot-dns-multi --break-system-packages || begin
+      echo "Plugin installation failed" >&2
+      return $OMF_UNKNOWN_ERR
+    end
+  end
 end

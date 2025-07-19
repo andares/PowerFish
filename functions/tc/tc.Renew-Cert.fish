@@ -45,13 +45,6 @@ function tc.Renew-Cert -a domain secretName mail
   # 检查依赖
   power.Check-Python
   power.Check-Certbot
-  if not pip3 show certbot-dns-tencentcloud >/dev/null 2>&1
-    echo "Installing certbot-dns-tencentcloud..."
-    sudo pip3 install certbot-dns-tencentcloud --break-system-packages || begin
-      echo "Plugin installation failed" >&2
-      return $OMF_UNKNOWN_ERR
-    end
-  end
 
   # 设置临时环境变量 (仅限当前命令)
   set -lx TENCENTCLOUD_SECRET_ID $TENCENTCLOUD_SECRET_ID
