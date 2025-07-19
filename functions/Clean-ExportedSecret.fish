@@ -30,8 +30,8 @@ function Clean-ExportedSecret -a domain forUser
     return 1
   end
 
-  if sudo sh -c "test -d '$export_user_dir'"; and not test -n (find $export_user_dir -maxdepth 0 -type d -empty)
-    sudo rm -rf $export_user_dir/*
+  if sudo sh -c "test -d '$export_user_dir'"
+    sudo rm -rf $export_user_dir
   end
 
 end

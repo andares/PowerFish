@@ -60,7 +60,6 @@ function tc.Renew-Cert -a domain secretFile mail
       # --keep-until-expiring \
       --authenticator dns-multi \
       --dns-multi-credentials=/dev/shm/.export-secret/$USER/$SECRET_DOMAIN/$secretFile \
-      -d zzdcn.com \
       -d "$domain" \
       --server https://acme-v02.api.letsencrypt.org/directory
   else
@@ -71,7 +70,6 @@ function tc.Renew-Cert -a domain secretFile mail
       # --keep-until-expiring \
       --authenticator dns-multi \
       --dns-multi-credentials=/dev/shm/.export-secret/$USER/$SECRET_DOMAIN/$secretFile \
-      -d zzdcn.com \
       -d "$domain" \
       --server https://acme-v02.api.letsencrypt.org/directory
   end
@@ -84,7 +82,9 @@ function tc.Renew-Cert -a domain secretFile mail
   end
 
   # 验证证书文件是否存在
-  set -l cert_path "/etc/letsencrypt/live/(string replace '*' 'wildcard' $domain)"
+  # 移除通配符前缀（如 "*.example.com" → "example.com"）
+  set -l base_domain (string replace -r '^\*\.' '' -- $domain)
+  set -l cert_path /etc/letsencrypt/live/$base_domain
   if not test -f "$cert_path/fullchain.pem"
     echo "Certificate file not found: $cert_path/fullchain.pem" >&2
     return $OMF_UNKNOWN_ERR
