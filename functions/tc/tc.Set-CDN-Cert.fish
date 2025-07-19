@@ -1,4 +1,4 @@
-function tc.Set-CDN-Cert -a profila certId cdnDomain -d "设置 CDN 域名证书"
+function tc.Set-CDN-Cert -a profile certId cdnDomain -d "设置 CDN 域名证书"
   # 验证参数数量
   if test -z "$profile"; or test -z "$certId"; or test -z "$cdnDomain"
     echo "Usage: tc.Set-CDN-Cert <profile> <cert-id> <cdn-domain> [https-settings]"
