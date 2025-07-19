@@ -43,7 +43,7 @@ function tc.Renew-Cert -a domain secretFile mail
   # set -lx TENCENTCLOUD_SECRET_KEY $TENCENTCLOUD_SECRET_KEY
 
   # 授权密钥
-  Export-SecretFile $SECRET_DOMAIN $secretFile $secretFile $USER
+  Export-SecretFile $SECRET_DOMAIN $secretFile $secretFile $USER > /dev/null 2>&1
 
   # 检查依赖
   power.Check-Python
