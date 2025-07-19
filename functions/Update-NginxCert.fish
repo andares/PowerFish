@@ -8,7 +8,7 @@ function Update-NginxCert -a site cert
   end
 
   # 验证参数
-  if test -z "$site"
+  if test -z "$site"; or test -z "$cert"
     echo "Usage: Update-NginxCert <site> <cert>" >&2
     return 1
   end
