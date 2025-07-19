@@ -85,7 +85,7 @@ function tc.Renew-Cert -a domain secretFile mail
   # 移除通配符前缀（如 "*.example.com" → "example.com"）
   set -l base_domain (string replace -r '^\*\.' '' -- $domain)
   set -l cert_path /etc/letsencrypt/live/$base_domain
-  if not test -f "$cert_path/fullchain.pem"
+  if not sudo test -f "$cert_path/fullchain.pem"
     echo "Certificate file not found: $cert_path/fullchain.pem" >&2
     return $OMF_UNKNOWN_ERR
   end
