@@ -97,9 +97,14 @@ function Export-SecretFile -a domain name exportName forUser -d "将密钥导出
   end
 
   # 解密到临时文件
+  if test -e "$export_file"
+    sudo rm -r "$export_file"
+  end
   sudo age -d -i "$key_file" -o "$export_file" "$encrypted_file" >/dev/null 2>&1
   if test $status -ne 0
-    echo "Failed to decrypt file: $encrypted_file" >&2
+    echo "Failed to decrypt file: $encrypted_file
+to:
+$export_file" >&2
     return 1
   end
   sudo chmod 600 $export_file
