@@ -56,11 +56,9 @@ function tc.Upload-Cert -a profile domain -d "上传证书到腾讯云"
   # 上传证书到腾讯云
   echo "Uploading certificate for $domain using profile $profile"
   set -l result (tccli --profile $profile ssl UploadCertificate \
-    --CertificateType SVR \
     --CertificatePublicKey (cat $tmp_cert | string collect) \
     --CertificatePrivateKey (cat $tmp_key | string collect) \
-    --output json)
-    # --output json 2>/dev/null)
+    --CertificateType SVR 2>/dev/null)
 
   # 处理上传结果
   if set -q result[1]

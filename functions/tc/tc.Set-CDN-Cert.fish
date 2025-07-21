@@ -22,8 +22,7 @@ function tc.Set-CDN-Cert -a profile certId cdnDomain -d "设置 CDN 域名证书
   # 获取当前 CDN 配置
   echo "Retrieving current config for $cdnDomain"
   set -l config (tccli --profile $profile cdn DescribeDomainsConfig \
-    --Domains.0.Name $cdnDomain \
-    --output json 2>/dev/null)
+    --Filters "[{\"Name\":\"domain\",\"Value\":[\"$cdnDomain\"]}]")
 
   if not set -q config[1]
     echo "Failed to retrieve CDN configuration for $cdnDomain"
@@ -34,28 +33,38 @@ function tc.Set-CDN-Cert -a profile certId cdnDomain -d "设置 CDN 域名证书
   set -l https_config (echo $config | jq -r '.Domains[0].Https')
 
   if test "$https_config" = "null"
-    # 创建新的 HTTPS 配置
-    set https_config '{
-      "Switch": "on",
-      "Http2": "on",
-      "OcspStapling": "on",
-      "VerifyClient": "off",
-      "CertInfo": {
-        "CertificateId": "'$certId'",
-        "Message": "Auto-updated by script"
-      }
-    }'
+    # 创建新的 HTTPS 配置并启用必要选项
+    set https_config (jq -n \
+      --arg id "$certId" \
+      '{
+        "Switch": "on",
+        "Http2": "on",
+        "OcspStapling": "on",
+        "VerifyClient": "off",
+        "CertInfo": {
+          "CertificateId": $id,
+          "Message": "Auto-updated by script"
+        }
+      }')
   else
-    # 更新现有配置中的证书 ID
-    set https_config (echo $https_config | jq --arg id "$certId" '.CertInfo.CertificateId = $id')
+    # 更新现有配置：启用必要选项并设置新证书ID
+    set https_config (echo $https_config | jq \
+      --arg id "$certId" \
+      '.Switch = "on"
+       | .Http2 = "on"
+       | .OcspStapling = "on"
+       | .CertInfo.CertificateId = $id')
   end
+
+  echo tccli --profile $profile cdn UpdateDomainConfig \
+    --Domain $cdnDomain \
+    --Https "$https_config"
 
   # 更新 CDN 配置
   echo "Updating HTTPS configuration for $cdnDomain"
   set -l update_result (tccli --profile $profile cdn UpdateDomainConfig \
     --Domain $cdnDomain \
-    --Https "$https_config" \
-    --output json 2>/dev/null)
+    --Https "$https_config")
 
   if set -q update_result[1]
     set -l request_id (echo $update_result | jq -r '.RequestId')
