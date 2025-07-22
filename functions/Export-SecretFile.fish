@@ -97,7 +97,7 @@ function Export-SecretFile -a domain name exportName forUser -d "将密钥导出
   end
 
   # 解密到临时文件
-  if test -e "$export_file"
+  if sudo test -e "$export_file"
     sudo rm -r "$export_file"
   end
   sudo age -d -i "$key_file" -o "$export_file" "$encrypted_file" >/dev/null 2>&1

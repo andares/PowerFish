@@ -1,4 +1,4 @@
-# TODO: 这个方法暂时未能实装，有报权限证书等问题
+# INFO: 这个方案目前存在问题，需要在腾讯云后台先设置开启一遍SSL才能生效
 function tc.Set-CDN-Cert -a profile certId cdnDomain -d "设置 CDN 域名证书"
   # 验证参数数量
   if test -z "$profile"; or test -z "$certId"; or test -z "$cdnDomain"
