@@ -1,3 +1,4 @@
+# TODO: 这个方法暂时未能实装，有报权限证书等问题
 function tc.Set-CDN-Cert -a profile certId cdnDomain -d "设置 CDN 域名证书"
   # 验证参数数量
   if test -z "$profile"; or test -z "$certId"; or test -z "$cdnDomain"
@@ -56,9 +57,9 @@ function tc.Set-CDN-Cert -a profile certId cdnDomain -d "设置 CDN 域名证书
        | .CertInfo.CertificateId = $id')
   end
 
-  echo tccli --profile $profile cdn UpdateDomainConfig \
-    --Domain $cdnDomain \
-    --Https "$https_config"
+  # echo tccli --profile $profile cdn UpdateDomainConfig \
+  #   --Domain $cdnDomain \
+  #   --Https "$https_config"
 
   # 更新 CDN 配置
   echo "Updating HTTPS configuration for $cdnDomain"
