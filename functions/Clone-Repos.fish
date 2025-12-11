@@ -1,4 +1,4 @@
-function Clone-Repos -a remoteUri targetDir
+function Clone-Repos -d "克隆仓库到本地" -a remoteUri targetDir
   # 验证远程URI是否为空
   if test -z "$remoteUri"
     echo "Error: Remote URI is required" >&2

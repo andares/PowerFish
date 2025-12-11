@@ -1,4 +1,4 @@
-function Exec-By
+function Exec-By -d "以指定用户执行命令或进入交互 shell"
     if not set -q argv[1]
         echo "Usage: Exec-By USERNAME [SCRIPT_COMMAND]"
         echo "Examples:"

@@ -1,4 +1,4 @@
-function power.Check-Certbot
+function power.Check-Certbot -d "检查并安装 certbot 及插件"
   # Check if certbot is installed
   if not command -q certbot
     echo "Installing certbot..."

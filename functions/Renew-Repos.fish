@@ -1,4 +1,4 @@
-function Renew-Repos -a target
+function Renew-Repos -d "重置仓库到远程分支最新状态" -a target
     # 设置默认目标目录为当前目录
     if test -z "$target"
         set target .

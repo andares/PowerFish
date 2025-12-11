@@ -1,4 +1,4 @@
-function Install-Docker
+function Install-Docker -d "安装 Docker 引擎及配置"
     # 检查root权限
     # if not test (id -u) -eq 0
     #     echo "Error: Please run this script with sudo" >&2

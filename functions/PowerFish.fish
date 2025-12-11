@@ -1,4 +1,4 @@
-function PowerFish -a sub -d "List commands for PowerFish package."
+function PowerFish -d "列出 PowerFish 可用命令" -a sub
   if test -z "$sub"
     # 使用 begin/end 块组合多个 echo 命令
     begin

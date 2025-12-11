@@ -1,4 +1,4 @@
-function power.Check-Age
+function power.Check-Age -d "检查并安装 age"
   # Check if age is installed
   if not command -q age
     echo "Installing age..."

@@ -1,4 +1,4 @@
-function power.Install-LandDeps -d 'Install Land library dependencies.'
+function power.Install-LandDeps -d "安装 Land 所需依赖"
   # 检查是否安装了 proxychains
   if command -s proxychains >/dev/null
     # 检测到 proxychains 存在时的逻辑

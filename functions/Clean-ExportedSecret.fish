@@ -1,4 +1,4 @@
-function Clean-ExportedSecret -a domain forUser
+function Clean-ExportedSecret -d "清理导出的密钥文件" -a domain forUser
   # 检查sudo权限
   if not power.Has-Sudo
     echo "Error: Need sudo permission" >&2

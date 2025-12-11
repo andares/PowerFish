@@ -1,4 +1,4 @@
-function Delete-RCVar -a name
+function Delete-RCVar -d "从 RC 文件中删除环境变量" -a name
   if test -z "$name"
     echo "Usage: Delete-RCVar <name>"
     echo "  Variable name must be provided."

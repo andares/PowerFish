@@ -1,4 +1,4 @@
-function Land -a command
+function Land -d "运行 Land 命令（通过 Deno）" -a command
   # Check if command is provided
   if test -z "$command"
     set command help

@@ -1,4 +1,4 @@
-function Make-SecretFile -a domain name file
+function Make-SecretFile -d "使用 age 加密并保存文件" -a domain name file
   # 确保目录存在
   if not test -d "$HOME/.local/.secret"
     echo "Error: secret dir does not exist" >&2

@@ -1,4 +1,4 @@
-function Get-DotEnv-Var -a name -d "Get variable from .env file" --argument-names path
+function Get-DotEnv-Var -a name -d "从 .env 文件获取变量值" --argument-names path
     # Set default path to current directory if not provided
     if test -z "$path"
         set path "."

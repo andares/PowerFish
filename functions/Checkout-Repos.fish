@@ -1,4 +1,4 @@
-function Checkout-Repos -a reposDir branchName
+function Checkout-Repos -d "切换仓库到指定分支" -a reposDir branchName
   # 验证仓库目录参数
   if test -z "$reposDir"
     echo "Error: Repository directory is required" >&2

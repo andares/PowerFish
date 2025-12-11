@@ -1,4 +1,4 @@
-function tc.Renew-Cert -a domain secretFile mail
+function tc.Renew-Cert -d "使用腾讯云凭据和 certbot 续期证书" -a domain secretFile mail
   set -l SECRET_DOMAIN tencentcloud
 
   # 检查sudo权限

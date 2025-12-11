@@ -1,4 +1,4 @@
-function List-LiveCerts
+function List-LiveCerts -d "列出系统中现有的证书及到期时间"
   # 设置证书存储路径
   set live_dir "/etc/letsencrypt/live"
 

@@ -1,4 +1,4 @@
-function Raise-DockerCompose -a targetDir
+function Raise-DockerCompose -d "启动或重启 Docker Compose 服务" -a targetDir
   set -l command
   if test -z "$targetDir"
     if not test -e ./docker-compose.yml

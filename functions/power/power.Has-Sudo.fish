@@ -1,4 +1,4 @@
-function power.Has-Sudo
+function power.Has-Sudo -d "检查当前用户是否有 sudo 权限"
     # 如果是 root 直接返回
     test (id -u) -eq 0; and return 0
 

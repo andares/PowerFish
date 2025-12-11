@@ -1,4 +1,4 @@
-function Show-RCVars -a name
+function Show-RCVars -d "显示 RC 文件中的环境变量" -a name
   set rcfile "$HOME/.powerrc.fish"
 
   if not test -f "$rcfile"

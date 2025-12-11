@@ -1,4 +1,4 @@
-function Show-SecretFile -a domain name
+function Show-SecretFile -d "解密并显示密钥文件内容" -a domain name
   # 确保目录存在
   if not test -d "$HOME/.local/.secret"
     echo "Error: secret dir does not exist" >&2

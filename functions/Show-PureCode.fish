@@ -1,5 +1,5 @@
 # Example with `exclude`: Show-PureCode php "./vendor/*"|wc -l
-function Show-PureCode -a extension exclude
+function Show-PureCode -d "统计并显示指定后缀的纯代码内容" -a extension exclude
     if test -z "$extension"
         echo "Usage: Show-PureCode <extension>" >&2
         return $OMF_UNKNOWN_ERR

@@ -1,4 +1,4 @@
-function Make-SecretLink -a domainPath
+function Make-SecretLink -d "将密钥目录和密钥文件创建软链" -a domainPath
   # 确保目录存在
   if not test -d "$HOME/.local/.secret"
     echo "Error: secret dir does not exist" >&2

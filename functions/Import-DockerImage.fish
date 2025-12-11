@@ -1,4 +1,4 @@
-function Import-DockerImage -a filename tagName
+function Import-DockerImage -d "从文件导入 Docker 镜像" -a filename tagName
   if test -z $filename
     echo Usage: Import-DockerImage \<tagName\> \<filename\>
     return $OMF_MISSING_AGE

@@ -1,4 +1,4 @@
-function tc.Show-Profile
+function tc.Show-Profile -d "显示 tccli 的 profile 配置"
   # 查看指定 Profile 的详细配置
   if test -z "$argv"
     echo "Usage: tc.Show-Profile <profile-name>"

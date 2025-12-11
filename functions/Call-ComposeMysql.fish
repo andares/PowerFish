@@ -1,4 +1,4 @@
-function Call-ComposeMysql -a database
+function Call-ComposeMysql -d "在 Docker Compose 集群中连接 MySQL" -a database
     # Step 0: Check for jq dependency
     if not command -v jq >/dev/null
         echo "Error: jq is required but not installed. Please install it with:" >&2

@@ -1,4 +1,4 @@
-function Set-RCVar -a name value
+function Set-RCVar -d "在 RC 文件中设置环境变量" -a name value
   if test -z "$name"; or test -z "$value"
     echo "Usage: Set-RCVar <name> <value>"
     return 1  # 使用固定错误码

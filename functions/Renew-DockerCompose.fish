@@ -1,4 +1,4 @@
-function Renew-DockerCompose -a composeFile
+function Renew-DockerCompose -d "重新构建并重启 Docker Compose 服务" -a composeFile
     # 设置默认目标目录为当前目录
     if test -z "$composeFile"
       Docker-Compose down && Docker-Compose up -d --build --remove-orphans

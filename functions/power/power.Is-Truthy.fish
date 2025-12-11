@@ -1,4 +1,4 @@
-function power.Is-Truthy
+function power.Is-Truthy -d "判断值是否为真（布尔判断）"
   set -l value (string lower -- $argv[1])
   switch $value
     case '1' 'y' 'yes' 't' 'true' 'ok' 'on'
