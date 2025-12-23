@@ -48,5 +48,8 @@ function Show-SecretFile -d "解密并显示密钥文件内容" -a domain name
 
   # 解密并输出内容
   age -d -i "$key_file" "$encrypted_file" 2>/dev/null
+  echo "================ End ================"
+  echo "> Found file in the path: $encrypted_file"
+  echo "> With key file: $key_file"
   return $status
 end
