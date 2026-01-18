@@ -52,6 +52,16 @@ if test -f $HOME/.powerrc.fish
   source $HOME/.powerrc.fish
 end
 
+# rc directory support
+if not test -e $HOME/.powerrc
+  mkdir -p $HOME/.powerrc
+end
+
+# load all *.fish files from rc directory
+for rcfile in (find $HOME/.powerrc -maxdepth 1 -name "*.fish" -type f | sort)
+  source $rcfile
+end
+
 # alias load
 source $DIR/alias.fish
 
