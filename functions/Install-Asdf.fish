@@ -1,4 +1,5 @@
 # INFO: 做个说明，这个是老的安装方式，安装的是0.15老版本，0.16之后asdf使用go重写并变更了安装方式，安装脚本也不兼容了，后续如果需要安装0.16版本可以再更新这个函数
+# @see https://asdf-vm.com/guide/getting-started.html
 function Install-Asdf -d "安装 ASDF 版本管理器"
     # 检查sudo权限
     if not power.Has-Sudo

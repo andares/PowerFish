@@ -1,3 +1,4 @@
+# INFO: 这里对密钥的操作是基于Export-SecretFile导出密钥文件，并且是以临时文件的形式（用后删除）操作的，密钥供给的是certbot的腾讯云dns插件使用。这个方案与tccli --profile方案没有关系，是独立的。主要目的是为了安全地将密钥传递给certbot，而不需要在环境变量中暴露敏感信息。
 function tc.Renew-Cert -d "使用腾讯云凭据和 certbot 续期证书" -a domain secretFile mail
   set -l SECRET_DOMAIN tencentcloud
 
