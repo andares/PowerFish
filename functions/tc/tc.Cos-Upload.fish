@@ -1,3 +1,6 @@
+# 执行 config init 时：
+# - Input Your Mode: 时可以输入 AK/SK
+# - Input Your Session Token: 可以直接回车留空
 function tc.Cos-Upload -d "上传本地文件/目录到腾讯云 COS"
   # 用法：tc.Cos-Upload <bucket-alias> [destination_path] <source...>
   if test (count $argv) -lt 2
