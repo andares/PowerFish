@@ -7,7 +7,7 @@ function tc.Cos-Upload -d "上传本地文件/目录到腾讯云 COS"
     echo "Usage: tc.Cos-Upload <bucket-alias> [destination_path] <source...>"
     echo "Example: tc.Cos-Upload bucket1 /release/ ./dist ./README.md"
     echo "Example: tc.Cos-Upload bucket1 ./dist  # destination_path 默认 /"
-    echo "Note: directory source keeps its basename once (e.g. / + admin => /admin, /admin + admin => /admin)"
+    echo "Note: destination object prefix always appends source basename (e.g. / + admin => /admin, /data + dist => /data/dist)"
     return 1
   end
 
@@ -33,7 +33,7 @@ function tc.Cos-Upload -d "上传本地文件/目录到腾讯云 COS"
     return 1
   end
 
-  # prefix 规范化：确保以 / 开头；最终作为目录使用并确保以 / 结尾
+  # prefix 规范化：确保以 / 开头；仅根目录保留为 /
   if test -z "$destination_path"
     set destination_path "/"
   end
@@ -41,17 +41,9 @@ function tc.Cos-Upload -d "上传本地文件/目录到腾讯云 COS"
     set destination_path "/$destination_path"
   end
 
-  if test "$destination_path" = "/"
-    set destination_path "/"
-  else
-    set destination_path (string replace -r '/+$' '' -- "$destination_path")"/"
+  if test "$destination_path" != "/"
+    set destination_path (string replace -r '/+$' '' -- "$destination_path")
   end
-
-  # cos URI 说明：cos://<bucket-alias><prefix>/<filename>
-  # - bucket-alias：coscli config 中配置的桶别名
-  # - prefix：目标目录，函数保证以 / 开头；为 / 时不额外拼多余分隔
-  # - filename：由 sync 命令按源文件名/目录结构处理，不在此函数中改名
-  set -l destination_uri "cos://$bucket_alias$destination_path"
 
   # 确保 coscli 可用（按官方下载方式安装到 ~/.local/bin）
   set -l coscli_cmd "coscli"
@@ -149,7 +141,6 @@ function tc.Cos-Upload -d "上传本地文件/目录到腾讯云 COS"
     end
 
     set bucket_alias "$alias_input"
-    set destination_uri "cos://$bucket_alias$destination_path"
   end
 
   set -l has_error 0
@@ -160,29 +151,22 @@ function tc.Cos-Upload -d "上传本地文件/目录到腾讯云 COS"
       continue
     end
 
-    set -l current_destination_uri "$destination_uri"
+    set -l src_normalized (string replace -r '/+$' '' -- "$src")
+    if test -z "$src_normalized"
+      set src_normalized "$src"
+    end
+
+    set -l src_name (basename "$src_normalized")
+    set -l target_path ""
+    if test "$destination_path" = "/"
+      set target_path "/$src_name"
+    else
+      set target_path "$destination_path/$src_name"
+    end
+
+    set -l current_destination_uri "cos://$bucket_alias$target_path"
+
     if test -d "$src"
-      set -l src_normalized (string replace -r '/+$' '' -- "$src")
-      if test -z "$src_normalized"
-        set src_normalized "$src"
-      end
-
-      set -l src_name (basename "$src_normalized")
-      set -l target_path "$destination_path"
-
-      if test "$target_path" = "/"
-        set target_path "/$src_name/"
-      else
-        set -l target_trimmed (string replace -r '/+$' '' -- "$target_path")
-        set -l target_last_segment (basename "$target_trimmed")
-        if test "$target_last_segment" = "$src_name"
-          set target_path "$target_trimmed/"
-        else
-          set target_path "$target_trimmed/$src_name/"
-        end
-      end
-
-      set current_destination_uri "cos://$bucket_alias$target_path"
       echo "Sync: $src -> $current_destination_uri"
       $coscli_cmd sync "$src" "$current_destination_uri" -r
     else
