@@ -7,6 +7,7 @@ function tc.Cos-Upload -d "上传本地文件/目录到腾讯云 COS"
     echo "Usage: tc.Cos-Upload <bucket-alias> [destination_path] <source...>"
     echo "Example: tc.Cos-Upload bucket1 /release/ ./dist ./README.md"
     echo "Example: tc.Cos-Upload bucket1 ./dist  # destination_path 默认 /"
+    echo "Note: directory source keeps its basename once (e.g. / + admin => /admin, /admin + admin => /admin)"
     return 1
   end
 
@@ -159,11 +160,34 @@ function tc.Cos-Upload -d "上传本地文件/目录到腾讯云 COS"
       continue
     end
 
-    echo "Sync: $src -> $destination_uri"
+    set -l current_destination_uri "$destination_uri"
     if test -d "$src"
-      $coscli_cmd sync "$src" "$destination_uri" -r
+      set -l src_normalized (string replace -r '/+$' '' -- "$src")
+      if test -z "$src_normalized"
+        set src_normalized "$src"
+      end
+
+      set -l src_name (basename "$src_normalized")
+      set -l target_path "$destination_path"
+
+      if test "$target_path" = "/"
+        set target_path "/$src_name/"
+      else
+        set -l target_trimmed (string replace -r '/+$' '' -- "$target_path")
+        set -l target_last_segment (basename "$target_trimmed")
+        if test "$target_last_segment" = "$src_name"
+          set target_path "$target_trimmed/"
+        else
+          set target_path "$target_trimmed/$src_name/"
+        end
+      end
+
+      set current_destination_uri "cos://$bucket_alias$target_path"
+      echo "Sync: $src -> $current_destination_uri"
+      $coscli_cmd sync "$src" "$current_destination_uri" -r
     else
-      $coscli_cmd sync "$src" "$destination_uri"
+      echo "Sync: $src -> $current_destination_uri"
+      $coscli_cmd sync "$src" "$current_destination_uri"
     end
 
     if test $status -ne 0
