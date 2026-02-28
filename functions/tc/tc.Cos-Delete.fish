@@ -86,13 +86,8 @@ function tc.Cos-Delete -d "删除腾讯云 COS 上的文件/目录"
 
     set -l target_uri "cos://$bucket_alias$target_path"
 
-    if string match -qr '/$' -- "$target_path"
-      echo "Delete (recursive): $target_uri"
-      $coscli_cmd rm "$target_uri" -r -f
-    else
-      echo "Delete: $target_uri"
-      $coscli_cmd rm "$target_uri" -f
-    end
+    echo "Delete: $target_uri"
+    $coscli_cmd rm "$target_uri" -r -f
 
     if test $status -ne 0
       echo "Delete failed: $target"
