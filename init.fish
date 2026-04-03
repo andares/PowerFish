@@ -71,6 +71,9 @@ autoload $POWER_PATH/functions/dc
 autoload $POWER_PATH/functions/hw
 autoload $POWER_PATH/functions/tc
 
+# 同步 $PATH 到 bash
+power.EnvPath-To-Bash
+
 # autoclear history hook
 if not test -z "$autoclear_history"; and test $autoclear_history -gt 0
   function _hook_autoclear_history --on-process-exit %self
