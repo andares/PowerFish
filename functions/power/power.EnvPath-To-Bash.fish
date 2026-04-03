@@ -54,7 +54,6 @@ function power.EnvPath-To-Bash
 	end
 
 	set -l merged_joined (string join ':' -- $merged_paths)
-	set -l managed_marker '# [power.EnvPath-To-Bash] managed'
 	set -l export_line "export PATH=\"$merged_joined:\$PATH\""
 
 	set -l tmpfile (mktemp)
@@ -63,41 +62,33 @@ function power.EnvPath-To-Bash
 		return 1
 	end
 
-	set -l skip_managed_export 0
-
 	while read -l line
 		set -l trimmed_line (string trim -- "$line")
 
-		if test $skip_managed_export -eq 1
-			set skip_managed_export 0
-			if string match -qr '^export[[:space:]]+PATH[[:space:]]*=' -- "$trimmed_line"
-				continue
-			end
-		end
-
-		if string match -q -- "$managed_marker" "$trimmed_line"
-			set skip_managed_export 1
-			continue
-		end
-
-		if string match -qr '^# \[power.EnvPath-To-Bash\][[:space:]]+export[[:space:]]+PATH[[:space:]]*=' -- "$trimmed_line"
-			continue
-		end
-
-		if string match -qr '^export[[:space:]]+PATH[[:space:]]*=' -- "$trimmed_line"
-			if test "$trimmed_line" = "$export_line"
-				continue
-			end
-
-			echo "# [power.EnvPath-To-Bash] $line" >> "$tmpfile"
+		if string match -qr '^(export[[:space:]]+)?PATH[[:space:]]*=' -- "$trimmed_line"
 			continue
 		end
 
 		echo "$line" >> "$tmpfile"
 	end < "$bashrc"
 
-	echo "$managed_marker" >> "$tmpfile"
-	echo "$export_line" >> "$tmpfile"
+	set -l body_tmpfile (mktemp)
+	if test $status -ne 0; or test -z "$body_tmpfile"
+		echo "Error: 无法创建临时文件" >&2
+		rm -f "$tmpfile"
+		return 1
+	end
+
+	mv "$tmpfile" "$body_tmpfile"
+	if test $status -ne 0
+		echo "Error: 处理 $bashrc 失败" >&2
+		rm -f "$tmpfile" "$body_tmpfile"
+		return 1
+	end
+
+	echo "$export_line" > "$tmpfile"
+	cat "$body_tmpfile" >> "$tmpfile"
+	rm -f "$body_tmpfile"
 
 	mv "$tmpfile" "$bashrc"
 	if test $status -ne 0
