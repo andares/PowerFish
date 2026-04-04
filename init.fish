@@ -72,7 +72,8 @@ autoload $POWER_PATH/functions/hw
 autoload $POWER_PATH/functions/tc
 
 # 同步 $PATH 到 bash
-power.EnvPath-To-Bash
+# INFO: 还是不要每次都同步了
+# power.EnvPath-To-Bash
 
 # autoclear history hook
 if not test -z "$autoclear_history"; and test $autoclear_history -gt 0
