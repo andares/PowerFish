@@ -70,6 +70,7 @@ autoload $POWER_PATH/functions/power
 autoload $POWER_PATH/functions/dc
 autoload $POWER_PATH/functions/hw
 autoload $POWER_PATH/functions/tc
+autoload $POWER_PATH/functions/fnm
 
 # 同步 $PATH 到 bash
 # INFO: 还是不要每次都同步了
